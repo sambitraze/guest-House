@@ -1,10 +1,31 @@
-const express = require('express')
+const express = require("express");
 const app = express();
-const port = 3000;
-Math.floor(Date.now() / 1000);
-app.get('/', (req, res) => {
-  res.send('Hello World!')
+const cors = require("cors");
+const http = require("http");
+const bodyparser = require('body-parser');
+const mongoose = require("mongoose");
+require("dotenv/config");
+const bookingsRoute = require("./routes/bookings");
+
+mongoose
+  .connect(process.env.DATABASE, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  })
+  .then(() => {
+    console.log("DB CONNECTED");
+  });
+
+app.use(cors());
+app.use(bodyparser.json());
+app.use("/booking", bookingsRoute);
+
+app.get("/", (req, res) => {
+  res.send("Hello World!");
 });
-app.listen(port, () => {
-  console.log(`GH app listening on port ${port}!`)
+
+const httpServer = http.createServer(app);
+httpServer.listen(80, () => {
+  console.log("HTTP Server running on port 80");
 });

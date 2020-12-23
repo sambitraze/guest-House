@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const { ObjectId } = mongoose.Schema;
 const BookingSchema = new mongoose.Schema(
   {
     checkIn: {
