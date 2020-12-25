@@ -5,6 +5,8 @@ const http = require("http");
 const bodyparser = require('body-parser');
 const mongoose = require("mongoose");
 require("dotenv/config");
+
+
 const bookingsRoute = require("./routes/bookings");
 
 mongoose
@@ -17,13 +19,16 @@ mongoose
     console.log("DB CONNECTED");
   });
 
+
 app.use(cors());
 app.use(bodyparser.json());
 app.use("/booking", bookingsRoute);
 
+
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+
 
 const httpServer = http.createServer(app);
 httpServer.listen(80, () => {

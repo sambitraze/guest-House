@@ -36,12 +36,23 @@ exports.updateBooking = (req, res) => {
 };
 
 exports.getBookingByCount = (req, res) => {
-    Booking.find({ 
-      }).sort({createdAt:-1}).limit(req.body.limit).exec((err, bookings) => {
-        if (err) {
-          res.json({ error: err, message: "no records found" });
-        } else {
-          res.json(bookings);
-        }
-      });
+  Booking.find()
+    .sort({ createdAt: -1 })
+    .limit(req.body.limit)
+    .exec((err, bookings) => {
+      if (err) {
+        res.json({ error: err, message: "no records found" });
+      } else {
+        res.json(bookings);
+      }
+    });
+};
+exports.getBookingById = (req, res) => {
+  Booking.findById(req.params.id).exec((err, booking) => {
+    if (err) {
+      res.json({ error: err, message: "no records found" });
+    } else {
+      res.json(booking);
+    }
+  });
 };
