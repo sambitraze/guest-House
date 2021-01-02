@@ -1,10 +1,26 @@
 const Payment = require("../models/payment");
-exports.createBooking = (req, res) => {
+
+exports.createPayment = (req, res) => {
   const payment = new Payment(req.body);
   payment.save((err, payment) => {
     console.log(err);
     if (err) {
       res.json({ error: err, message: "payment failed" });
     } else res.json(payment);
+  });
+};
+
+exports.getPaymentByTime = (req, res) => {
+  Payment.find({
+    "time": {
+      "$gte": req.body.startTime,
+      "$lte": req.body.endTime,
+    }
+  }).exec((err, bookings) => {
+    if (err) {
+      res.json({ error: err, message: "no records found" });
+    } else {
+      res.json(bookings);
+    }
   });
 };

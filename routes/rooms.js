@@ -1,20 +1,9 @@
-const mongoose = require("mongoose");
+const router = require("express").Router();
+const{createRoom,getEmptyRooms,getRoomById} = require("../controllers/rooms");
 
-const RoomSchema = new mongoose.Schema(
-  {
-    roomCode: {
-      type: String,
-    },
-    desc: {
-      type: String,
-      trim: true,
-    },
-    isOccupied:{
-        type: Boolean,
-        default: false,
-    }
-  },
-  { timestamps: true }
-);
 
-module.exports = mongoose.model("Room", RoomSchema);
+router.post("/create",createRoom);
+router.post("/getEmnpty",getEmptyRooms);
+router.get("/:id",getRoomById);
+
+module.exports = router;
