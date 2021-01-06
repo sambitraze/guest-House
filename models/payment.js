@@ -16,4 +16,4 @@ const PaymentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Booking", PaymentSchema);
+module.exports = mongoose.model("Payments", PaymentSchema);

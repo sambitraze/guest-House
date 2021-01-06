@@ -16,7 +16,9 @@ exports.getPaymentByTime = (req, res) => {
       "$gte": req.body.startTime,
       "$lte": req.body.endTime,
     }
-  }).exec((err, bookings) => {
+  })
+  .populate("customer")
+  .exec((err, bookings) => {
     if (err) {
       res.json({ error: err, message: "no records found" });
     } else {

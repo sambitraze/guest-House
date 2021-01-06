@@ -13,7 +13,9 @@ exports.getBookingsByDate = (req, res) => {
   Booking.find({
     checkIn: { $gte: req.body.checkIn },
     CheckOut: { $lte: req.body.CheckOut },
-  }).exec((err, bookings) => {
+  })
+  .populate("room","payment","customer")
+  .exec((err, bookings) => {
     if (err) {
       res.json({ error: err, message: "no records found" });
     } else {
@@ -38,7 +40,8 @@ exports.updateBooking = (req, res) => {
 exports.getBookingByCount = (req, res) => {
   Booking.find()
     .sort({ createdAt: -1 })
-    .limit(req.body.limit)
+    .limit(req.body.limit)    
+  .populate("room","payment","customer")
     .exec((err, bookings) => {
       if (err) {
         res.json({ error: err, message: "no records found" });
@@ -48,7 +51,9 @@ exports.getBookingByCount = (req, res) => {
     });
 };
 exports.getBookingById = (req, res) => {
-  Booking.findById(req.params.id).exec((err, booking) => {
+  Booking.findById(req.params.id)  
+  .populate("room","payment","customer")
+  .exec((err, booking) => {
     if (err) {
       res.json({ error: err, message: "no records found" });
     } else {
