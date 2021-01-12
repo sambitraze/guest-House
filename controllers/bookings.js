@@ -24,6 +24,39 @@ exports.getBookingsByDate = (req, res) => {
   });
 };
 
+exports.getBookingsByDateRoomId = (req, res) => {
+  var allBookings = [];
+  Booking.find({
+    room: req.body.room,
+    checkIn: { $gte: req.body.today },
+    CheckOut: { $lte: req.body.today },
+  })
+  .populate("room","payment","customer")
+  .exec((err, bookings) => {
+    if (err) {
+      res.json({ error: err, message: "no records found" });
+    } else {
+      // res.json(bookings);
+      allBookings = bookings;
+    }
+  });
+  Booking.find({
+    room: req.body.room,
+    checkIn: { $lte: req.body.today },
+    CheckOut: { $lte: req.body.today },
+  })
+  .populate("room","payment","customer")
+  .exec((err, bookings) => {
+    if (err) {
+      res.json({ error: err, message: "no records found" });
+    } else {
+      // res.json(bookings);
+      allBookings.concat( bookings);
+      res.json(allBookings);
+    }
+  });
+};
+
 exports.updateBooking = (req, res) => {
   Booking.findByIdAndUpdate(
     { _id: req.body._id },
